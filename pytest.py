@@ -86,26 +86,26 @@ class Pawn(chessman):
         return False
         
 class Knight(chessman):
-    def is_legal_move(self):
+    def is_legal_move(self , new_cell):
         deltaMatrix=(abs(self.col-new_cell.col), abs(new_cell.row - self.row))
         if deltaMatrix==(1,2) or deltaMatrix==(2,1):
             return True
         return False
 
 class Bishop(chessman):
-    def is_legal_move(self):
+    def is_legal_move(self , new_cell):
         if abs(self.col-new_cell.col)==abs(new_cell.row - self.row):
             return True
         return False
 
 class Rook(chessman):
-    def is_legal_move(self):
+    def is_legal_move(self , new_cell):
         if self.col==new_cell.col or new_cell.row == self.row:
             return True
         return False        
 
 class Queen(chessman):
-    def is_legal_move(self):
+    def is_legal_move(self , new_cell):
         if self.col==new_cell.col or new_cell.row == self.row:
             return True
         elif abs(self.col-new_cell.col)==abs(new_cell.row - self.row):
@@ -113,7 +113,7 @@ class Queen(chessman):
         return False 
     
 class King(chessman):
-    def is_legal_move(self):
+    def is_legal_move(self , new_cell):
         if abs(self.col-new_cell.col)<=1 and abs(new_cell.row - self.row)<=1:
             return True
         return False
