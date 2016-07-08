@@ -22,20 +22,22 @@ class game():
         
 
 class cell():
-    def __init__(self , row , col , chessman):
+    def __init__(self , row , col , chessman = None):
         self.row = row
         self.col = col
         self.chessman = chessman
+    
+    def set_chessman(self , chess_man = None):
+        self.chessman = chess_man
+    
     def is_empty(self):
         return (True if chessman == None else False)
 
 class board():
     def __init__(self):
-        self.board_cells = []
-        for i in range(8):
-            for j in range(8):
-                self.board_cells.append(cell(i , j , ))
-    
+        self.board_cells = [[cell(j,i) for i in range(8)] for j in range(8)]
+        for i , j , color in [(x,y,c) for x in range(8) for y,c in ((2,0),(7,1))]:
+            self.board_cells[j][i].set_chessman(Pawn(self.board_cells[j][i] , color))
     
     def draw_init_board(self):
         print ("------------------------") 
@@ -54,6 +56,9 @@ class chessman():
     def is_legal_capture(self):
         return self.is_legal_capture()
     
+    def get_short_name(self):
+        return type(self).__name__[0]
+        
     @property
     def row(self):
         return self._cell.row
@@ -91,6 +96,10 @@ class Knight(chessman):
         if deltaMatrix==(1,2) or deltaMatrix==(2,1):
             return True
         return False
+    
+    def get_short_name(self):
+        return 'N'
+    
 
 class Bishop(chessman):
     def is_legal_move(self , new_cell):
