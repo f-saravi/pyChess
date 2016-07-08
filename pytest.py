@@ -1,11 +1,25 @@
 #!/usr/bin/python3
 
-
+WHITE = 0
+BLACK = 1
 __version__ = "1.0.0"    
 
 def main():
     b = board()
     b.draw_init_board()
+   
+
+class player():
+    def __init__(self , name):
+        self._name = name
+        
+    
+class game():
+    def __init__(self):
+        self._turn = WHITE
+        player_white = player()
+        player_black = player()
+        
 
 class cell():
     def __init__(self , row , col , chessman):
@@ -32,65 +46,59 @@ class board():
 class chessman():
     def __init__(self , cell , color):
         self._color = color
-        self.cell = cell
-
-
-    def move(self , new_x , new_y):
-        if 0 <= new_x and new_x <= 8 and 0 <= new_y and new_y <= 8:
-            self._x = new_x
-            self._y = new_y
-        else:
-            print("invalid move")
-            
-        
-    def get_position(self):
-        return (self._x , self._y)
-
+        self._cell = cell
+    
+    def is_legal_move(self):
+        pass
+    
+    def is_legal_capture(self):
+        return self.is_legal_capture()
+    
+    @property
+    def row(self):
+        return self._cell.row
+    @property
+    def col(self):
+        return self._cell.col
 
 class Pawn(chessman):
-    def __init__(self , cell , color , identity):
-        super(Pawn, self).__init__(cell , color)
-        self._identity = identity
-       
-    def move(self, new_x, new_y):
-        
-        chessman.move(self, new_x, new_y)
+    def is_legal_move(self , new_cell):
+        if self.col == new_cell.col:
+            if self._color == WHITE:
+                    if self.col == 2 and (new_cell.row - self.row == 1 or new_cell.row - self.row == 2):
+                        return True
+                    elif self.col > 2 and new_cell.row - self.row == 1:
+                        return True
+            else:
+                    if self.col == 7 and (new_cell.row - self.row == -1 or new_cell.row - self.row == -2):
+                        return True
+                    elif self.col < 7 and new_cell.row - self.row == -1:
+                        return True
+        return False
     
-    def is_possible_pawn_move(self , new_x , new_y):
-        if self._color == "white":
-            if self._y == new_y:
-                if self._x == 2 and (new_x - self._x == 1 or new_x - self._x == 2):
-                    return True
-                elif self._x > 2 and new_x - self._x == 1:
-                    return True
-            elif abs(self._y - new_y) == 1 and is_emply_and_in_board(new_x, new_y):
-                
-            retu
+    def is_legal_capture(self , new_cell):
+        if self._color == WHITE:
+            if (abs(self.col-new_cell.col), new_cell.row - self.row)==(1,1):
+                return True
+        else:
+            if (abs(self.col-new_cell.col), new_cell.row - self.row)==(1,-1):
+                return True
+        return False
         
 class Knight(chessman):
-    def __init__(self , x , y , color , identity):
-        super(Knight, self).__init__(x , y , color)
-        self._identity = identity
+    pass
 
 class Bishop(chessman):
-    def __init__(self , x , y , color , identity):
-        super(Bishop, self).__init__(x , y , color)
-        self._identity = identity
+    pass
 
 class Queen(chessman):
-    def __init__(self , x , y , color , identity):
-        super(Queen, self).__init__(x , y , color)
-        self._identity = identity
+    pass
     
 class Rook(chessman):
-    def __init__(self , x , y , color , identity):
-        super(Rook, self).__init__(x , y , color)
-        self._identity = identity
+    pass
     
 class King(chessman):
-    def __init__(self , x , y , color , identity):
-        super(King, self).__init__(x , y , color)
-        self._identity = identity
+    pass
 
         
 if __name__ == "__main__": main()
